@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free learning hub with WASSCE subjects, past questions, courses, coding, maths and study tools.">
+<title>Learning Hub: WASSCE Subjects, Past Questions and Free Study Tools</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Learning Hub: WASSCE Subjects, Past Questions and Free Study Tools">
+<meta property="og:description" content="Free learning hub with WASSCE subjects, past questions, courses, coding, maths and study tools.">
+<style>
+:root{--bg:#fafaf7;--card:#fff;--text:#1d1d1b;--muted:#66665f;--accent:#2455d6;--line:#e4e4de;--chip:#eef1fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--card:#1e1e1c;--text:#f1f1ec;--muted:#a3a39b;--accent:#7ea2ff;--line:#333330;--chip:#22263a}}
+:root[data-theme="dark"]{--bg:#141413;--card:#1e1e1c;--text:#f1f1ec;--muted:#a3a39b;--accent:#7ea2ff;--line:#333330;--chip:#22263a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+main{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.8rem;margin:8px 0 4px}
+.sub{color:var(--muted);margin:0 0 18px}
+#q{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font-size:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 14px;border-radius:999px;font-size:.9rem}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+h2{font-size:1.1rem;margin:22px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+a.card:active{background:var(--chip)}
+.name{font-weight:700}
+.desc{color:var(--muted);font-size:.9rem;margin-top:2px}
+.go{color:var(--accent);font-size:.85rem;margin-top:8px;font-weight:600}
+#none{display:none;color:var(--muted);text-align:center;padding:30px 0}
+footer{color:var(--muted);font-size:.85rem;margin-top:28px;text-align:center}
+</style>
+</head>
+<body>
+<main>
+<h1>Learning Hub</h1>
+<p class="sub">Free learning sites and tools in one place. Tap any card to open it.</p>
+<p class="sub">Learning Hub gathers WASSCE subjects and past questions, free online courses, maths and science tools, coding lessons, books and study tools for students in Ghana and everywhere.</p>
+<input id="q" type="search" placeholder="Search, e.g. maths, coding, books" aria-label="Search">
+<div class="chips" id="chips"></div>
+<div id="list"></div>
+<div id="none">Nothing found. Try another word.</div>
+<footer>Subject list follows the usual WASSCE programmes. Check WAEC Ghana for the latest syllabus and any changes. Links open other websites. Their content is not owned by this page.</footer>
+</main>
+<script>
+var ITEMS=[
+{c:"WASSCE Past Questions",n:"WAEC Ghana (official)",d:"Official WAEC Ghana site: exam information, results and updates.",u:"https://www.waecgh.org",g:"Open site"},
+{c:"WASSCE Past Questions",n:"Questions Bank GH",d:"Past WASSCE and BECE questions sourced from WAEC. May need a small fee to register.",u:"https://www.questionsbankgh.com",g:"Open site"},
+{c:"WASSCE Past Questions",n:"All WASSCE past questions",d:"Search for past questions in every subject.",u:"https://www.google.com/search?q=WASSCE+past+questions+Ghana",g:"Search"},
+{c:"Courses",n:"Khan Academy",d:"Free lessons in maths, science and more.",u:"https://www.khanacademy.org"},
+{c:"Courses",n:"BBC Bitesize",d:"School subjects and revision guides.",u:"https://www.bbc.co.uk/bitesize"},
+{c:"Courses",n:"Coursera",d:"Online courses from universities.",u:"https://www.coursera.org"},
+{c:"Courses",n:"edX",d:"University courses on many subjects.",u:"https://www.edx.org"},
+{c:"Courses",n:"TED-Ed",d:"Short animated lessons and videos.",u:"https://ed.ted.com"},
+{c:"Courses",n:"Duolingo",d:"Learn languages with short daily lessons.",u:"https://www.duolingo.com"},
+{c:"Maths & Science",n:"Desmos",d:"Free online graphing calculator.",u:"https://www.desmos.com/calculator"},
+{c:"Maths & Science",n:"GeoGebra",d:"Maths tools for graphs, geometry and algebra.",u:"https://www.geogebra.org"},
+{c:"Maths & Science",n:"Wolfram Alpha",d:"Type a problem and get step-by-step answers.",u:"https://www.wolframalpha.com"},
+{c:"Maths & Science",n:"PhET Simulations",d:"Interactive science and maths experiments.",u:"https://phet.colorado.edu"},
+{c:"Coding",n:"freeCodeCamp",d:"Learn to code with free lessons and projects.",u:"https://www.freecodecamp.org"},
+{c:"Coding",n:"W3Schools",d:"Simple tutorials for HTML, CSS and JavaScript.",u:"https://www.w3schools.com"},
+{c:"Coding",n:"MDN Web Docs",d:"Trusted guides for building websites.",u:"https://developer.mozilla.org"},
+{c:"Coding",n:"Scratch",d:"Learn coding by making games and stories.",u:"https://scratch.mit.edu"},
+{c:"Reading & Research",n:"Wikipedia",d:"Free encyclopedia on almost any topic.",u:"https://www.wikipedia.org"},
+{c:"Reading & Research",n:"Google Scholar",d:"Search research papers and articles.",u:"https://scholar.google.com"},
+{c:"Reading & Research",n:"Project Gutenberg",d:"Thousands of free books to read online.",u:"https://www.gutenberg.org"},
+{c:"Reading & Research",n:"Open Library",d:"Borrow and read books online.",u:"https://openlibrary.org"},
+{c:"Study Tools",n:"Quizlet",d:"Flashcards and practice tests.",u:"https://quizlet.com"},
+{c:"Study Tools",n:"Anki",d:"Flashcards that help you remember longer.",u:"https://apps.ankiweb.net"},
+{c:"Study Tools",n:"Google Translate",d:"Translate words and text between languages.",u:"https://translate.google.com"},
+{c:"Study Tools",n:"Canva",d:"Make posters, slides and presentations.",u:"https://www.canva.com"}
+];
+var WS={
+"Core (everyone writes)":["English Language","Core Mathematics","Integrated Science","Social Studies"],
+"Science elective":["Physics","Chemistry","Biology","Elective Mathematics"],
+"Business elective":["Financial Accounting","Cost Accounting","Business Management","Economics"],
+"Arts elective":["Literature-in-English","Government","History","Geography","Christian Religious Studies","Islamic Religious Studies","French","Music","Ghanaian Language"],
+"Visual Arts elective":["General Knowledge in Art","Graphic Design","Picture Making","Textiles","Ceramics","Sculpture","Leatherwork","Basketry"],
+"Home Economics elective":["Food and Nutrition","Management in Living","Clothing and Textiles"],
+"Agriculture elective":["General Agriculture","Animal Husbandry","Crop Husbandry and Horticulture","Fisheries"],
+"Technical elective":["Applied Electricity","Electronics","Auto Mechanics","Technical Drawing","Woodwork","Metalwork","Building Construction"],
+"Other elective":["Information and Communication Technology (ICT)"]
+};
+var pos=3;
+Object.keys(WS).forEach(function(g){
+  WS[g].forEach(function(n){
+    ITEMS.splice(pos++,0,{c:"WASSCE Subjects",n:n,d:g+". Find WASSCE past questions.",u:"https://www.google.com/search?q="+encodeURIComponent("WASSCE "+n+" past questions Ghana"),g:"Search past questions"});
+  });
+});
+var cats=["All"];
+ITEMS.forEach(function(i){if(cats.indexOf(i.c)<0)cats.push(i.c);});
+var active="All";
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");}
+function drawChips(){
+  var h="";
+  cats.forEach(function(c){h+='<button type="button" class="chip'+(c===active?" on":"")+'" data-c="'+esc(c)+'">'+esc(c)+'</button>';});
+  document.getElementById("chips").innerHTML=h;
+}
+function drawList(){
+  var q=document.getElementById("q").value.trim().toLowerCase();
+  var out="",count=0;
+  cats.slice(1).forEach(function(c){
+    if(active!=="All"&&active!==c)return;
+    var rows=ITEMS.filter(function(i){
+      return i.c===c&&(!q||(i.n+" "+i.d+" "+i.c).toLowerCase().indexOf(q)>=0);
+    });
+    if(!rows.length)return;
+    count+=rows.length;
+    out+="<h2>"+esc(c)+'</h2><div class="grid">';
+    rows.forEach(function(i){
+      out+='<a class="card" href="'+esc(i.u)+'" target="_blank" rel="noopener noreferrer"><div class="name">'+esc(i.n)+'</div><div class="desc">'+esc(i.d)+'</div><div class="go">'+esc(i.g||"Open")+' &rarr;</div></a>';
+    });
+    out+="</div>";
+  });
+  document.getElementById("list").innerHTML=out;
+  document.getElementById("none").style.display=count?"none":"block";
+}
+document.getElementById("chips").addEventListener("click",function(e){
+  var b=e.target.closest(".chip");if(!b)return;
+  active=b.getAttribute("data-c");drawChips();drawList();
+});
+document.getElementById("q").addEventListener("input",drawList);
+drawChips();drawList();
+</script>
+</body>
+</html>

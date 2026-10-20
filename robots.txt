@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mangalagibbs3-code.github.io/preorder/sitemap.xml
